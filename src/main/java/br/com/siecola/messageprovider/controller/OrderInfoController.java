@@ -3,11 +3,13 @@ package br.com.siecola.messageprovider.controller;
 import br.com.siecola.messageprovider.model.OrderInfo;
 import br.com.siecola.messageprovider.model.User;
 import br.com.siecola.messageprovider.repository.UserRepository;
+import br.com.siecola.messageprovider.util.CheckRole;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +28,11 @@ import java.util.logging.Logger;
 public class OrderInfoController {
     private static final Logger log = Logger.getLogger("OrderInfoController");
 
+    @Value("${server.key.gae}")
+    private String serverKey;
+
     private Gson gson;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,7 +41,7 @@ public class OrderInfoController {
         gson = new Gson();
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('" + CheckRole.ROLE_ADMIN + "')")
     @PostMapping
     public ResponseEntity<String> sendOrderInfo(@Valid @RequestBody OrderInfo orderInfo) {
 
@@ -47,7 +53,7 @@ public class OrderInfoController {
             User user = optUser.get();
             if (user.getGcmRegId() != null) {
 
-                Sender sender = new Sender("key");
+                Sender sender = new Sender(serverKey);
                 Message message = new Message.Builder().addData("orderInfo", orderInfoMessage).build();
                 Result result;
 
