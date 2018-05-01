@@ -2,7 +2,7 @@
 
 ## 1 - Informações de acesso
 
-O provedor de serviços de vendas encontra-se hospedado no seguinte endereço:
+O provedor de serviços de envio de mensagens encontra-se hospedado no seguinte endereço:
 
 https://message-provider.appspot.com
 
@@ -49,7 +49,7 @@ A resposta a essa autenticação é o token de acesso no seguinte formato:
 
 > **Usuário com papel ADMIN**
 >
-> O provedor de serviço de vendas já possui um usuário com papel de administrador, que não pode ser alterado nem apagado. Seu login é `matilde@siecola.com.br` e sua senha é `matilde`.
+> O provedor de serviços de envio de mensagens já possui um usuário com papel de administrador, que não pode ser alterado nem apagado. Seu login é `matilde@siecola.com.br` e sua senha é `matilde`.
 
 
 
