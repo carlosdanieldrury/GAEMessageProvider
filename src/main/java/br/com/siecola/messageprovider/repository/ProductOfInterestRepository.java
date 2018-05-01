@@ -50,19 +50,19 @@ public class ProductOfInterestRepository {
                 .getDatastoreService();
 
         Key key = KeyFactory.createKey(PRODUCT_KIND, PRODUCT_KEY);
-        Entity entity = new Entity(PRODUCT_KIND, key);
+        Entity entity;
 
-        Optional<ProductOfInterest> optProduct = this.findByCodeAndEmail(
+        Optional<Entity> optEntity = this.findByCodeAndEmail(
                 productOfInterest.getCode(), productOfInterest.getEmail());
 
-        ProductOfInterest product = optProduct.orElseGet(ProductOfInterest::new);
-        productToEntity(product, entity);
+        entity = optEntity.orElseGet(() -> new Entity(PRODUCT_KIND, key));
+        productToEntity(productOfInterest, entity);
 
         datastore.put(entity);
 
-        product.setId(entity.getKey().getId());
+        productOfInterest.setId(entity.getKey().getId());
 
-        return product;
+        return productOfInterest;
     }
 
     public List<ProductOfInterest> findByEmail(String email) {
@@ -88,7 +88,7 @@ public class ProductOfInterestRepository {
         return products;
     }
 
-    public List<ProductOfInterest> findByCode(int code) {
+    public List<ProductOfInterest> findByCode(String code) {
         List<ProductOfInterest> products = new ArrayList<>();
 
         DatastoreService datastore = DatastoreServiceFactory
@@ -111,7 +111,7 @@ public class ProductOfInterestRepository {
         return products;
     }
 
-    private Optional<ProductOfInterest> findByCodeAndEmail(int code, String email) {
+    private Optional<Entity> findByCodeAndEmail(String code, String email) {
         List<ProductOfInterest> products = new ArrayList<>();
 
         DatastoreService datastore = DatastoreServiceFactory
@@ -131,14 +131,14 @@ public class ProductOfInterestRepository {
 
         Entity entity = datastore.prepare(query).asSingleEntity();
         if (entity != null) {
-            return Optional.ofNullable(entityToProduct(entity));
+            return Optional.of(entity);
         } else {
             return Optional.empty();
         }
     }
 
-    public List<ProductOfInterest> findByCodeAndPriceLessThanOrEqual (int code,
-                                                                      float price) {
+    public List<ProductOfInterest> findByCodeAndPriceGreaterThanOrEqual(String code,
+                                                                        double price) {
         List<ProductOfInterest> products = new ArrayList<>();
 
         DatastoreService datastore = DatastoreServiceFactory
@@ -148,7 +148,7 @@ public class ProductOfInterestRepository {
                 Query.FilterOperator.EQUAL, code);
 
         Query.Filter priceFilter = new Query.FilterPredicate(PROPERTY_PRICE,
-                Query.FilterOperator.LESS_THAN_OR_EQUAL, price);
+                Query.FilterOperator.GREATER_THAN_OR_EQUAL, price);
 
         Query.CompositeFilter compositeFilter = new Query.CompositeFilter(
                 Query.CompositeFilterOperator.AND,
@@ -201,7 +201,6 @@ public class ProductOfInterestRepository {
     }
 
     private void productToEntity(ProductOfInterest product, Entity productEntity) {
-        productEntity.setProperty(PROPERTY_ID, product.getId());
         productEntity.setProperty(PROPERTY_CODE, product.getCode());
         productEntity.setProperty(PROPERTY_PRICE, product.getPrice());
         productEntity.setProperty(PROPERTY_EMAIL, product.getEmail());
@@ -210,8 +209,8 @@ public class ProductOfInterestRepository {
     private ProductOfInterest entityToProduct(Entity productEntity) {
         ProductOfInterest product = new ProductOfInterest();
         product.setId(productEntity.getKey().getId());
-        product.setCode((Integer) productEntity.getProperty(PROPERTY_CODE));
-        product.setPrice((Float) productEntity.getProperty(PROPERTY_PRICE));
+        product.setCode((String) productEntity.getProperty(PROPERTY_CODE));
+        product.setPrice((Double) productEntity.getProperty(PROPERTY_PRICE));
         product.setEmail((String) productEntity.getProperty(PROPERTY_EMAIL));
         return product;
     }

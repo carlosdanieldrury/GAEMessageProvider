@@ -112,10 +112,10 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('" + CheckRole.ROLE_ADMIN + "')")
     @PostMapping("/notify/{code}/{price}")
-    public ResponseEntity<String> notifyUsers(@PathVariable int code,
-                                                         @PathVariable float price) {
+    public ResponseEntity<String> notifyUsers(@PathVariable String code,
+                                                         @PathVariable double price) {
         List<ProductOfInterest> products = productOfInterestRepository
-                .findByCodeAndPriceLessThanOrEqual(code, price);
+                .findByCodeAndPriceGreaterThanOrEqual(code, price);
 
         int numberOfMessagesSent = 0;
         for (ProductOfInterest product : products) {

@@ -7,8 +7,8 @@ import javax.validation.constraints.NotNull;
 public class ProductOfInterest {
 
     private long id;
-    private int code;
-    private float price;
+    private String code;
+    private double price;
 
     @NotNull
     @Email
@@ -22,19 +22,19 @@ public class ProductOfInterest {
         this.id = id;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

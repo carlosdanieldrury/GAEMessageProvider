@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAnyAuthority('" + CheckRole.ROLE_USER + "','" + CheckRole.ROLE_ADMIN + "')")
-    @PutMapping(path = "/byemail")
+    @PutMapping(path = "/updatereggcm")
     public ResponseEntity<User> updateUserRegGCM(
                                        @RequestParam("email") String email,
                                        @RequestParam("reggcm") String regGCM,
