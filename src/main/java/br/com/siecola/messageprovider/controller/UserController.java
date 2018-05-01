@@ -47,6 +47,10 @@ public class UserController {
     public ResponseEntity<User> updateUser(@RequestBody User user,
                                            @RequestParam("email") String email,
                                            Authentication authentication) {
+        if (email.equals("matilde@siecola.com.br")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
         if ((user.getId() != null) && user.getId() != 0) {
             try {
                 boolean hasRoleAdmin = CheckRole.hasRoleAdmin(authentication);
@@ -125,6 +129,9 @@ public class UserController {
     @DeleteMapping(path = "/byemail")
     public ResponseEntity<User> deleteUser(
             @RequestParam("email") String email, Authentication authentication) {
+        if (email.equals("matilde@siecola.com.br")) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         try {
             boolean hasRoleAdmin = CheckRole.hasRoleAdmin(authentication);
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
