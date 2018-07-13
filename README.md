@@ -277,6 +277,17 @@ A resposta a essa autenticação é o token de acesso no seguinte formato:
 * HTTP 404 Not Found: usuário não encontrado
 
 
+**Notificação enviada para o dispositivo móvel**
+* Chave: `orderInfo`
+* Payload:
+```json
+{
+	"id": 123456,
+    "email": "matilde@siecola.com.br",
+    "status": "ENTREGUE",
+    "reason": "Produto entregue"
+}
+```
 
 ## 4 - Serviço de gerenciamento de produtos de interesse
 
