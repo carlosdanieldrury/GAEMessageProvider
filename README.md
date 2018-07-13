@@ -282,7 +282,7 @@ A resposta a essa autenticação é o token de acesso no seguinte formato:
 * Payload:
 ```json
 {
-	"id": 123456,
+    "id": 123456,
     "email": "matilde@siecola.com.br",
     "status": "ENTREGUE",
     "reason": "Produto entregue"
@@ -423,3 +423,14 @@ A resposta a essa autenticação é o token de acesso no seguinte formato:
 
 **Código de resposta**: o código sempre será HTTP 200 OK, com uma mensagem informando qual o número de mensagens que foram enviadas.
 
+**Notificação enviada para o dispositivo móvel**
+* Chave: `productOfInterest`
+* Payload:
+```json
+{
+    "id": 123456,
+    "code": "COD1",
+    "price": 10.5,
+    "email": "matilde@siecola.com.br"
+}
+```
