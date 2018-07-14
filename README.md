@@ -248,7 +248,7 @@ A resposta a essa autenticação é o token de acesso no seguinte formato:
 
 ## 3 - Serviço de envio de notificação de status de pedido
 
-**Método:** PUT
+**Método:** POST
 
 **URL:** https://message-provider.appspot.com/api/orderinfo
 
